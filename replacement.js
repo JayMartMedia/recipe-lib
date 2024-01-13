@@ -1,11 +1,20 @@
-export type ReplacementOptions<T> = {
-    tokenSeparator?: string;
-    transformer?: (input: T) => string
-}
-
+"use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.replaceTokens = void 0;
 /**
  * Replace the tokens in the string with values from the token object
- * 
+ *
  * Basic example:
  * ```
  * const result = replaceTokens(
@@ -14,10 +23,10 @@ export type ReplacementOptions<T> = {
  *         person: "my"
  *     }
  * );
- * 
+ *
  * // result === "this is my string"
  * ```
- * 
+ *
  * Multiple token example:
  * ```
  * const result = replaceTokens(
@@ -27,10 +36,10 @@ export type ReplacementOptions<T> = {
  *         age: "100"
  *     }
  * );
- * 
+ *
  * // result === "my name is John and I am 100 years old"
  * ```
- * 
+ *
  * Custom transformer function example:
  * ```
  * const result = replaceTokens(
@@ -49,10 +58,10 @@ export type ReplacementOptions<T> = {
  *         transformer: (person) => `${person.givenName} ${person.surName}`
  *     }
  * );
- * 
+ *
  * // result === "First person - John Doe\nSecond person - Jane Doeth"
  * ```
- * 
+ *
  * Custom token separator example :
  * ```
  * const result = replaceTokens(
@@ -64,10 +73,10 @@ export type ReplacementOptions<T> = {
  *         tokenSeparator: "<sep>"
  *     }
  * );
- * 
+ *
  * // result === "First person - John Doe\nSecond person - Jane Doeth"
  * ```
- * 
+ *
  * @param {string} str the string for which to replace tokens, i.e. "this is :person: string";
  * @param {object} obj the object containing the tokens, i.e. `{person: "my"}`
  * @param {function} transformer (optional) transformer to transform the value of the token into a string.
@@ -75,25 +84,18 @@ export type ReplacementOptions<T> = {
  * @returns {string} the string with token replacement performed
  */
 //  export function replaceTokens<T>(str: string, obj: {[key: string]: T}, transformer: (input: T) => string = (a) => a.toString()) {
-export function replaceTokens<T>(
-    str: string,
-    obj: {[key: string]: T},
-    _options?: ReplacementOptions<T>
-){
+function replaceTokens(str, obj, _options) {
     // set default options and allow provided _options to overwrite if provided
-    const defaultOptions: ReplacementOptions<T> = {
-        transformer: (a) => a.toString(),
+    var defaultOptions = {
+        transformer: function (a) { return a.toString(); },
         tokenSeparator: ':'
-    }
-    const options = {
-        ...defaultOptions,
-        ..._options
-    }
-
+    };
+    var options = __assign(__assign({}, defaultOptions), _options);
     // process the string and replace tokens
-    const split = str.split(options.tokenSeparator);
-    const updated = split.map(section => {
+    var split = str.split(options.tokenSeparator);
+    var updated = split.map(function (section) {
         return obj[section] ? options.transformer(obj[section]) : section;
     });
     return updated.join("");
 }
+exports.replaceTokens = replaceTokens;
