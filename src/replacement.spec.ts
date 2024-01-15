@@ -46,6 +46,19 @@ describe('Token replacement lib', () => {
         );
         expect(result).toEqual(expectedResult);
     });
+    test('Works with colon (:) separator which leaves colon (:) in place if not used for token replacement', () => {
+        const inputString = ":Have: :a :quality: day: :today: please!:";
+        const qualityTokenValue = "good";
+        const expectedResult = ":Have: :a good day: :today: please!:";
+
+        const result = replaceTokens(
+            inputString,
+            {
+                quality: qualityTokenValue,
+            }
+        );
+        expect(result).toEqual(expectedResult);
+    });
     test('Works with custom transformer', () => {
         const inputString = "Have a :quality: day today!";
         const qualityTokenValue = "good";
