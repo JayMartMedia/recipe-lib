@@ -95,5 +95,21 @@ export function replaceTokens<T>(
     const updated = split.map(section => {
         return obj[section] ? options.transformer(obj[section]) : section;
     });
-    return updated.join("");
+    
+    // re-add colons if before and after weren't changed
+    let outStr = '';
+    for(let i = 0; i < split.length; i += 1) {
+        // first item
+        if(i === 0) {
+            outStr += updated[i];
+        }else if(split[i - 1] === updated[i - 1] && split[i] === updated[i]) {
+            // subsequent items that were NOT changed, should HAVE leading colon
+            outStr += ':' + updated[i];
+        }else{
+            // subsequent items that WERE changed, should NOT add leading colon
+            outStr += updated[i];
+        }
+    }
+
+    return outStr;
 }
